@@ -28,7 +28,6 @@ namespace Library.IoC
 
             //Mediatr
             services.AddScoped<IRequestHandler<BorrowBookCommand, Unit>, BorrowBookCommandHandler>();
-
         }
     }
 }

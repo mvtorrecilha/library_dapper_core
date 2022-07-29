@@ -28,7 +28,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet]
-       // [Authorize]
+        [Authorize]
         [Route("/api/books")]
         public async Task<IActionResult> Get()
         {
@@ -45,7 +45,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [Route("/api/books/{bookId:guid}/student/{studentEmail}")]
         public async Task<IActionResult> Post([FromRoute] BorrowBookCommand command)
         {
