@@ -2,157 +2,82 @@
 using Library.Api.Controllers;
 using Library.Api.Helpers;
 using Library.Api.ViewModels;
+using Library.ApiTest.UnitTests.Mocks;
+using Library.ApiTest.UnitTests.Mocks.Repositories;
+using Library.Core.Commands;
 using Library.Core.Common;
-using Library.Core.Interfaces.Services;
 using Library.Core.Models;
-using Library.Core.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Library.ApiTest.UnitTests
 {
     public class BookControllerTests
     {
-        protected Mock<IBookService> _bookServiceMock;
+        protected MockBookRepository _mockBookRepository;
         protected ResponseFormatter _responseFormatterMock;
         protected Notifier _notifier;
-        private const string BorrowAction = "borrow";
+        protected MockMediatr _mockMediatr;
 
         public BookControllerTests()
         {
-            _bookServiceMock = new Mock<IBookService>();
+            _mockBookRepository = new MockBookRepository();
             _notifier = new Notifier();
+            _mockMediatr = new MockMediatr();
         }
 
         private BookController GetController()
         {
             _responseFormatterMock = new ResponseFormatter(_notifier);
-            return new BookController(_bookServiceMock.Object, _responseFormatterMock);
+            return new BookController(
+                _mockBookRepository.Object, _responseFormatterMock, _mockMediatr.Object);
         }
 
         [Fact]
-        public void PostBorrowBook_InvalidAction_ShouldBeNotFoundAndHasError()
+        public async Task PostBorrowBook_BorrowedBook_Successfully()
         {
             // Arrange
-            string invalidAction = "request";
-            _bookServiceMock.Setup(x => x.BorrowBookAsync(It.IsAny<BorrowRequest>(), It.IsAny<string>()))
-                .Callback(() =>
-                {
-                    _notifier.AddError("action", Errors.InvalidAction, It.IsAny<string>());
-                    _notifier.SetStatuCode(HttpStatusCode.NotFound);
-                });
+            _mockMediatr
+                .MockSendCommand<BorrowBookCommand>();
 
-            var borrowRequest = new BorrowRequest
-            {
-                BookId = Guid.NewGuid()
-            };
-
-            // Act
-            var controller = GetController();
-            var result = controller.Post(borrowRequest, invalidAction);
-
-            // Assert
-            _notifier.HasError.Should().BeTrue();
-            _notifier.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            _notifier.Errors.Should().ContainSingle()
-                .Which.Message.Should().Be(Errors.InvalidAction);
-        }
-
-        [Fact]
-        public void PostBorrowBook_EmptyEmail_ShouldHasError()
-        {
-            // Arrange
-            _bookServiceMock.Setup(x => x.BorrowBookAsync(It.IsAny<BorrowRequest>(), It.IsAny<string>()))
-                .Callback(() => _notifier.AddError("Email", Errors.EmailCannotBeEmpty, null));
-
-            var borrowRequest = new BorrowRequest
+            var request = new BorrowBookCommand
             {
                 BookId = new Guid("762141A7-ACA3-4919-9ACD-3FC86815F05B")
             };
 
             // Act
             var controller = GetController();
-            var result = controller.Post(borrowRequest, BorrowAction);
+            await controller.Post(request);
 
             // Assert
-            string expectedError = Errors.EmailCannotBeEmpty;
-            _notifier.HasError.Should().BeTrue();
-            _notifier.Errors.Should().ContainSingle()
-                .Which.Message.Should().Be(expectedError);
+            _mockMediatr.VerifySend<BorrowBookCommand>(Times.Once());
         }
 
         [Fact]
-        public void PostBorrowBook_StudentNotFoundByEmailDataBase_ShouldHasError()
+        public void PostBorrowBook_BookNotFound_ThrowException()
         {
             // Arrange
-            _bookServiceMock.Setup(x => x.BorrowBookAsync(It.IsAny<BorrowRequest>(), It.IsAny<string>()))
-                .Callback(() => _notifier.AddError("Email", Errors.StudentNotFound, It.IsAny<string>()));
+            Exception exception = new Exception("Book Not found");
+            _mockMediatr
+                .MockSendWithException<BorrowBookCommand>(exception);
 
-            var borrowRequest = new BorrowRequest
+            var request = new BorrowBookCommand
             {
-                BookId = Guid.NewGuid(),
-                StudentEmail = "teste@gmail.com"
+                BookId = Guid.NewGuid()
             };
 
             // Act
             var controller = GetController();
-            var result = controller.Post(borrowRequest, BorrowAction);
+            Func<Task> action = async () => await controller.Post(request);
 
             // Assert
-            string expectedError = Errors.StudentNotFound;
-            _notifier.HasError.Should().BeTrue();
-            _notifier.Errors.Should().ContainSingle()
-                .Which.Message.Should().Be(expectedError);
-        }
-
-        [Fact]
-        public void PostBorrowBook_BookDoesntBelongToStudentCourse_ShouldHasError()
-        {
-            // Arrange
-            _bookServiceMock.Setup(x => x.BorrowBookAsync(It.IsAny<BorrowRequest>(), It.IsAny<string>()))
-                .Callback(() => _notifier.AddError("Id",
-                                                    Errors.TheBookDoesNotBelongToTheCourseCategory,
-                                                    It.IsAny<Guid>()));
-
-            var borrowRequest = new BorrowRequest
-            {
-                BookId = Guid.NewGuid(),
-                StudentEmail = "hdinizribeiro@gmail.com"
-            };
-
-            // Act
-            var controller = GetController();
-            var result = controller.Post(borrowRequest, BorrowAction);
-
-            // Assert
-            string expectedError = Errors.TheBookDoesNotBelongToTheCourseCategory;
-            _notifier.HasError.Should().BeTrue();
-            _notifier.Errors.Should().ContainSingle()
-                .Which.Message.Should().Be(expectedError);
-        }
-
-        [Fact]
-        public void PostBorrowBook_ValidBookAndEmail_ShouldBeSuccess()
-        {
-            // Arrange
-            var borrowRequest = new BorrowRequest
-            {
-                BookId = Guid.NewGuid(),
-                StudentEmail = "hdinizribeiro@gmail.com"
-            };
-
-            // Act
-            var controller = GetController();
-            var result = controller.Post(borrowRequest, BorrowAction);
-
-            // Assert
-            _notifier.HasError.Should().BeFalse();
-            _bookServiceMock.Verify(x => x.BorrowBookAsync(It.IsAny<BorrowRequest>(), It.IsAny<string>()), Times.Once);
+            var exception2 = action.Should().ThrowAsync<Exception>();
+            exception2.WithMessage("Book Not found");    
         }
 
         [Fact]
@@ -181,6 +106,13 @@ namespace Library.ApiTest.UnitTests
                 }
             };
 
+            _mockBookRepository.MockGetAllBooksAsync(bookList);              
+
+            // Act
+            var controller = GetController();
+            var result = controller.Get().Result;
+
+            // Assert
             var expected = new OkObjectResult(bookList.Select(b => new BookViewModel()
             {
                 Author = b.Author,
@@ -190,15 +122,7 @@ namespace Library.ApiTest.UnitTests
                 Title = b.Title
             }));
 
-            _bookServiceMock.Setup(x => x.GetAllBooksAsync()).ReturnsAsync(bookList);
-
-            // Act
-            var controller = GetController();
-            var result = controller.Get().Result;
-
-            // Assert
             result.Should().BeEquivalentTo(expected);
         }
-
     }
 }

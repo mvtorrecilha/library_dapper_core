@@ -1,6 +1,8 @@
 ﻿using Library.Core.Interfaces.Repositories;
+using Library.Core.Models;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Library.ApiTest.UnitTests.Mocks.Repositories
@@ -8,6 +10,14 @@ namespace Library.ApiTest.UnitTests.Mocks.Repositories
     public class MockBookRepository : Mock<IBookRepository>
     {
         public MockBookRepository() : base(MockBehavior.Strict) { }
+
+        public MockBookRepository MockGetAllBooksAsync(List<Book> output)
+        {
+            Setup(m => m.GetAllBooksAsync())
+                .ReturnsAsync(output);
+
+            return this;
+        }
 
         public MockBookRepository MockIsValidBookAsync(Guid id, string studentEmail, bool output)
         {
