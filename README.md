@@ -1,4 +1,4 @@
-# Library Assessment
+# Library .Net Core
 
 Esse projeto tem como objetivo controlar o empréstimo de livros de uma biblioteca fictícia.
 
