@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Library.Api.Helpers
+namespace Library.Core.Helpers
 {
     public interface IResponseFormatter
     {

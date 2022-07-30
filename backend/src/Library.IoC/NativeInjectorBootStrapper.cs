@@ -1,6 +1,7 @@
 ﻿using Library.Core.Commands;
 using Library.Core.Common;
 using Library.Core.Handlers;
+using Library.Core.Helpers;
 using Library.Core.Interfaces.Factories;
 using Library.Core.Interfaces.Repositories;
 using Library.Repository;
@@ -25,6 +26,9 @@ namespace Library.IoC
 
             //Factories
             services.AddSingleton(typeof(IConnectionFactory), typeof(ConnectionFactory));
+
+            //ResponseFormatter
+            services.AddScoped(typeof(IResponseFormatter), typeof(ResponseFormatter));
 
             //Mediatr
             services.AddScoped<IRequestHandler<BorrowBookCommand, Unit>, BorrowBookCommandHandler>();

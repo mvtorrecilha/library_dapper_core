@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Library.Api.Helpers
+namespace Library.Core.Helpers
 {
     public class ResponseFormatter : IResponseFormatter
     {

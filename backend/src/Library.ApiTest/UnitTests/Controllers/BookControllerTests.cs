@@ -1,17 +1,15 @@
 ﻿using FluentAssertions;
 using Library.Api.Controllers;
-using Library.Api.Helpers;
-using Library.Api.ViewModels;
 using Library.ApiTest.UnitTests.Mocks;
 using Library.ApiTest.UnitTests.Mocks.Repositories;
 using Library.Core.Commands;
 using Library.Core.Common;
+using Library.Core.Helpers;
 using Library.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -81,7 +79,7 @@ namespace Library.ApiTest.UnitTests
         }
 
         [Fact]
-        public void GetBooks_ReturnAllBooks()
+        public async Task GetBooks_ReturnAllBooks()
         {
             //Arrange
             var bookList = new List<Book>
@@ -110,18 +108,10 @@ namespace Library.ApiTest.UnitTests
 
             // Act
             var controller = GetController();
-            var result = controller.Get().Result;
+            var result = await controller.Get();
 
             // Assert
-            var expected = new OkObjectResult(bookList.Select(b => new BookViewModel()
-            {
-                Author = b.Author,
-                Id = b.Id,
-                Pages = b.Pages,
-                Publisher = b.Publisher,
-                Title = b.Title
-            }));
-
+            var expected = new OkObjectResult(bookList);
             result.Should().BeEquivalentTo(expected);
         }
     }

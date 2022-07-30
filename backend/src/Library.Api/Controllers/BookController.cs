@@ -1,11 +1,9 @@
-﻿using Library.Api.Helpers;
-using Library.Api.ViewModels;
-using Library.Core.Commands;
+﻿using Library.Core.Commands;
+using Library.Core.Helpers;
 using Library.Core.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.Api.Controllers
@@ -34,14 +32,7 @@ namespace Library.Api.Controllers
         {
             var books = await _bookRepository.GetAllBooksAsync();
 
-            return Ok(books.Select(b => new BookViewModel()
-            {
-                Author = b.Author,
-                Id = b.Id,
-                Pages = b.Pages,
-                Publisher = b.Publisher,
-                Title = b.Title
-            }));
+            return Ok(books);
         }
 
         [HttpPost]
