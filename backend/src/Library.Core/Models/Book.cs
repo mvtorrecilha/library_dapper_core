@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 
 namespace Library.Core.Models
 {
+    [Table("Book")]
     public class Book : BaseEntity 
     {        
         public string Title { get; set; }

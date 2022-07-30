@@ -3,6 +3,7 @@
 This project aims to control the borrowing of books from a fictional library.
 
 Features available for access:
+* List of Students
 * List of Books
 * Borrow a book
 
@@ -34,13 +35,14 @@ This command will run the site on url "https://localhost:5001" and the database 
 **Note: Every time you execute this command the data in the tables will be deleted. To not erase the data, just remove the argument "-- seed"**
 
 
-## List of Books
+## List of Students
 
 ### Request
 
-`GET /books/`
+`GET /students/`
 
-    curl -i -H 'Accept: application/json' http://localhost:5001/api/books
+### Request Url
+    http://localhost:5001/api/students
 
 ### Response body
 
@@ -52,6 +54,34 @@ This command will run the site on url "https://localhost:5001" and the database 
             "publisher": "Blucher",
             "bookCategoryId": "20efaba1-64bd-4b7f-82f4-c1d05550e305",
             "id": "4c008a16-6725-42c6-83fc-289a1f230b38"
+        }
+    ]
+
+
+### Response code
+
+| Code | Description |
+|---|---|
+| `200` | Success.|
+
+
+## List of Books
+
+### Request
+
+`GET /books/`
+
+### Request Url
+    http://localhost:5001/api/books
+
+### Response body
+
+    [
+        {
+            "name": "Student Name",
+            "email": "student@email",
+            "courseId": "a2c6f987-d83f-4fb3-9982-68553965b421",
+            "id": "1673a9fd-191a-479c-a41f-3dc5611aa98e"
         }
     ]
 
