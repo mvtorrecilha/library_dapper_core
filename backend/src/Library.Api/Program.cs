@@ -6,30 +6,29 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 
-namespace Library.Api
+namespace Library.Api;
+
+public class Program
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {            
-            var host = CreateHostBuilder(args).Build();
+    public static void Main(string[] args)
+    {            
+        var host = CreateHostBuilder(args).Build();
 
-            IConfiguration configs = host.Services.GetService<IConfiguration>();
+        IConfiguration configs = host.Services.GetService<IConfiguration>();
 
-            if (args.Contains("seed"))
-            {
-                DatabaseBootstrap bookRepository = new DatabaseBootstrap(configs.GetConnectionString("Master"));
-                bookRepository.Setup().Wait();
-            }
-
-            host.Run(); 
+        if (args.Contains("seed"))
+        {
+            DatabaseBootstrap bookRepository = new DatabaseBootstrap(configs.GetConnectionString("Master"));
+            bookRepository.Setup().Wait();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        host.Run(); 
     }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }

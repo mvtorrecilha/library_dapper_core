@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Library.Core.Models
+namespace Library.Core.Models;
+
+public class BookCategory : BaseEntity
 {
-    public class BookCategory : BaseEntity
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

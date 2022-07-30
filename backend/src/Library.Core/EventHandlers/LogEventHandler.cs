@@ -4,16 +4,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Library.Core.EventHandlers
+namespace Library.Core.EventHandlers;
+
+public class LogEventHandler : INotificationHandler<BorrowedBookNotification>
 {
-    public class LogEventHandler : INotificationHandler<BorrowedBookNotification>
+    public Task Handle(BorrowedBookNotification notification, CancellationToken cancellationToken)
     {
-        public Task Handle(BorrowedBookNotification notification, CancellationToken cancellationToken)
+        return Task.Run(() =>
         {
-            return Task.Run(() =>
-            {
-                Console.WriteLine($"Borrowed book: '{notification.BookId} - {notification.StudentEmail}'");
-            });
-        }
+            Console.WriteLine($"Borrowed book: '{notification.BookId} - {notification.StudentEmail}'");
+        });
     }
 }

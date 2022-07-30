@@ -2,46 +2,45 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Library.Core.Helpers
+namespace Library.Core.Helpers;
+
+public class ResponseFormatter : IResponseFormatter
 {
-    public class ResponseFormatter : IResponseFormatter
+    private readonly INotifier _notifier;
+
+    public ResponseFormatter(INotifier notifier)
     {
-        private readonly INotifier _notifier;
+        _notifier = notifier;
+    }
 
-        public ResponseFormatter(INotifier notifier)
+    public ActionResult Format() => Format<object>();
+
+
+    public ActionResult Format<T>(T body = null) where T : class
+    {
+        if (_notifier.HasError)
         {
-            _notifier = notifier;
+            return CreateObjectError();
         }
 
-        public ActionResult Format() => Format<object>();
+        return CreateObjectSuccess(body);
+    }
 
-
-        public ActionResult Format<T>(T body = null) where T : class
+    private ObjectResult CreateObjectError()
+    {
+        return new ObjectResult(_notifier.Errors)
         {
-            if (_notifier.HasError)
-            {
-                return CreateObjectError();
-            }
+            StatusCode = (_notifier.StatusCode != default(HttpStatusCode) ?
+                          _notifier.StatusCode : HttpStatusCode.BadRequest).GetHashCode()
+        };
+    }
 
-            return CreateObjectSuccess(body);
-        }
-
-        private ObjectResult CreateObjectError()
+    private ObjectResult CreateObjectSuccess<T>(T body = null) where T : class
+    {
+        return new ObjectResult(body)
         {
-            return new ObjectResult(_notifier.Errors)
-            {
-                StatusCode = (_notifier.StatusCode != default(HttpStatusCode) ?
-                              _notifier.StatusCode : HttpStatusCode.BadRequest).GetHashCode()
-            };
-        }
-
-        private ObjectResult CreateObjectSuccess<T>(T body = null) where T : class
-        {
-            return new ObjectResult(body)
-            {
-                StatusCode = (_notifier.StatusCode != default(HttpStatusCode) ?
-                              _notifier.StatusCode : HttpStatusCode.OK).GetHashCode()
-            };
-        }
+            StatusCode = (_notifier.StatusCode != default(HttpStatusCode) ?
+                          _notifier.StatusCode : HttpStatusCode.OK).GetHashCode()
+        };
     }
 }

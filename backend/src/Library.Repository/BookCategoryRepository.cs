@@ -2,11 +2,10 @@
 using Library.Core.Interfaces.Repositories;
 using Library.Core.Models;
 
-namespace Library.Repository
+namespace Library.Repository;
+
+public class BookCategoryRepository : BaseRepository<BookCategory>, IBookCategoryRepository
 {
-    public class BookCategoryRepository : BaseRepository<BookCategory>, IBookCategoryRepository
-    {
-        public BookCategoryRepository(IConnectionFactory connectionFactory)
-            : base(connectionFactory) { }
-    }
+    public BookCategoryRepository(IConnectionFactory connectionFactory)
+        : base(connectionFactory) { }
 }

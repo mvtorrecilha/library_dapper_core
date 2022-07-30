@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Library.Core.Interfaces.Repositories
+namespace Library.Core.Interfaces.Repositories;
+
+public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    public interface IBaseRepository<TEntity> where TEntity : BaseEntity
-    {
-        Task<TEntity> GetAsync(Guid id);
+    Task<TEntity> GetAsync(Guid id);
 
-        Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task AddAsync(TEntity entity);
+    Task AddAsync(TEntity entity);
 
-        Task DeleteAsync(TEntity entity);
+    Task DeleteAsync(TEntity entity);
 
-        Task UpdateAsync(TEntity entity);
-    }
+    Task UpdateAsync(TEntity entity);
 }

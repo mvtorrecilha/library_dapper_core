@@ -1,11 +1,10 @@
 ﻿using Dapper.Contrib.Extensions;
 using System;
 
-namespace Library.Core.Models
+namespace Library.Core.Models;
+
+public class BaseEntity
 {
-    public class BaseEntity
-    {
-        [ExplicitKey]
-        public Guid Id { get; set; } = Guid.NewGuid();
-    }
+    [ExplicitKey]
+    public Guid Id { get; set; } = Guid.NewGuid();
 }

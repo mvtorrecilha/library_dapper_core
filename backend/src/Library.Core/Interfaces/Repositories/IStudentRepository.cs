@@ -1,10 +1,9 @@
 ﻿using Library.Core.Models;
 using System.Threading.Tasks;
 
-namespace Library.Core.Interfaces.Repositories
+namespace Library.Core.Interfaces.Repositories;
+
+public interface IStudentRepository : IBaseRepository<Student>
 {
-    public interface IStudentRepository : IBaseRepository<Student>
-    {
-        Task<bool> IsStudentRegisteredByEmailAsync(string studentEmail);
-    }
+    Task<bool> IsStudentRegisteredByEmailAsync(string studentEmail);
 }

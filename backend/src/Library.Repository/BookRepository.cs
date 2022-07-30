@@ -6,16 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Library.Repository
-{
-    public class BookRepository : BaseRepository<Book>, IBookRepository
-    {
-        public BookRepository(IConnectionFactory connectionFactory)
-            : base(connectionFactory) { }
+namespace Library.Repository;
 
-        public async Task<IEnumerable<Book>> GetAllBooksAsync()
-        {
-            string query = @"SELECT id,
+public class BookRepository : BaseRepository<Book>, IBookRepository
+{
+    public BookRepository(IConnectionFactory connectionFactory)
+        : base(connectionFactory) { }
+
+    public async Task<IEnumerable<Book>> GetAllBooksAsync()
+    {
+        string query = @"SELECT id,
                                     title,
                                     author,
                                     publisher,
@@ -23,31 +23,31 @@ namespace Library.Repository
                             FROM   book
                             WHERE  lenttostudentid IS NULL";
 
-            using var connection = _connectionFactory.GetOpenConnection();
+        using var connection = _connectionFactory.GetOpenConnection();
 
-            return (await connection.QueryAsync<Book>(query)).AsList();
-        }
+        return (await connection.QueryAsync<Book>(query)).AsList();
+    }
 
-        public async Task BorrowBookAsync(Guid id, string studentEmail)
-        {
-            string query = @"UPDATE book
+    public async Task BorrowBookAsync(Guid id, string studentEmail)
+    {
+        string query = @"UPDATE book
                             SET lenttostudentid = (SELECT TOP 1 id
                                                     FROM   student
                                                     WHERE  email = @StudentEmail)
                             WHERE id = @BookId";
 
-            using var connection = _connectionFactory.GetOpenConnection();
+        using var connection = _connectionFactory.GetOpenConnection();
 
-            await connection.ExecuteAsync(query, new
-            {
-                @StudentEmail = studentEmail,
-                @BookId = id
-            });
-        }
-
-        public async Task<bool> IsValidBookAsync(Guid id, string studentEmail)
+        await connection.ExecuteAsync(query, new
         {
-            string query = @"SELECT count(B.id)
+            @StudentEmail = studentEmail,
+            @BookId = id
+        });
+    }
+
+    public async Task<bool> IsValidBookAsync(Guid id, string studentEmail)
+    {
+        string query = @"SELECT count(B.id)
                              FROM   [Library].[dbo].[book] B
                                     INNER JOIN [Library].[dbo].[coursebookscategories] CBC
                                            ON CBC.categoryid = B.bookcategoryid
@@ -56,16 +56,15 @@ namespace Library.Repository
                              WHERE  email LIKE @StudentEmail
                                    AND B.id = @BookId";
 
-            using var connection = _connectionFactory.GetOpenConnection();
+        using var connection = _connectionFactory.GetOpenConnection();
 
-            var validBook =  await connection.QueryFirstAsync<int>(query,
-                            new
-                            {
-                                @StudentEmail = studentEmail,
-                                @BookId = id
-                            });
+        var validBook =  await connection.QueryFirstAsync<int>(query,
+                        new
+                        {
+                            @StudentEmail = studentEmail,
+                            @BookId = id
+                        });
 
-            return validBook > 0 ? true : false;
-        }
+        return validBook > 0;
     }
 }

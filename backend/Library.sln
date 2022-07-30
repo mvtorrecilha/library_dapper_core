@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Repository", "src\L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.IoC", "src\Library.IoC\Library.IoC.csproj", "{63FA8ADB-F880-4BDA-B544-FAF58D64EA78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.ApiTest", "src\Library.ApiTest\Library.ApiTest.csproj", "{DE386D02-5BCA-422E-9A54-6FF9F21A8E2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.UnitTests", "src\Library.UnitTests\Library.UnitTests.csproj", "{DE386D02-5BCA-422E-9A54-6FF9F21A8E2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

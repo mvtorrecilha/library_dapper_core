@@ -7,51 +7,50 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Library.Api
+namespace Library.Api;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        NativeInjectorBootStrapper.RegisterServices(services);
+        services.AddControllers();
+        services.AddCorsConfig();
+        services.AddSwaggerGen();
+        services.AddMediatR(typeof(Startup));
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
         {
-            Configuration = configuration;
+            app.UseDeveloperExceptionPage();    
         }
 
-        public IConfiguration Configuration { get; }
-
-        public void ConfigureServices(IServiceCollection services)
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
         {
-            NativeInjectorBootStrapper.RegisterServices(services);
-            services.AddControllers();
-            services.AddCorsConfig();
-            services.AddSwaggerGen();
-            services.AddMediatR(typeof(Startup));
-        }
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Library Project");
+        });
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseHttpsRedirection();
+
+        app.UseRouting()
+            .UseCors("CorsPolicy");
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();    
-            }
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Library Project");
-            });
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting()
-                .UseCors("CorsPolicy");
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            endpoints.MapControllers();
+        });
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Library.Core.Models;
 
-namespace Library.Core.Interfaces.Repositories
+namespace Library.Core.Interfaces.Repositories;
+
+public interface ICourseRepository : IBaseRepository<Course>
 {
-    public interface ICourseRepository : IBaseRepository<Course>
-    {
-    }
 }

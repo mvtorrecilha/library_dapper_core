@@ -1,8 +1,7 @@
 ﻿using Library.Core.Models;
 
-namespace Library.Core.Interfaces.Repositories
+namespace Library.Core.Interfaces.Repositories;
+
+public interface IBookCategoryRepository : IBaseRepository<BookCategory>
 {
-    public interface IBookCategoryRepository : IBaseRepository<BookCategory>
-    {
-    }
 }
