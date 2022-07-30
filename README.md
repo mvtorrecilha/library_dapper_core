@@ -3,7 +3,7 @@
 This project aims to control the borrowing of books from a fictional library.
 
 Features available for access:
-* List of Book
+* List of Books
 * Borrow a book
 
 ## Technologies implemented:
@@ -40,7 +40,7 @@ This command will run the site on url "https://localhost:5001" and the database 
 
 `GET /books/`
 
-    curl -i -H 'Accept: application/json' http://localhost:49244/api/books
+    curl -i -H 'Accept: application/json' http://localhost:5001/api/books
 
 ### Response body
 
@@ -70,7 +70,7 @@ This command will run the site on url "https://localhost:5001" and the database 
 `Post /books/borrow`
 
 ### Request Url
-    http://localhost:49244/api/books/{bookId}/student/{studentEmail}/borrow
+    http://localhost:5001/api/books/{bookId}/student/{studentEmail}/borrow
 
 ### Response code
 
