@@ -48,12 +48,10 @@ This command will run the site on url "https://localhost:5001" and the database 
 
     [
         {
-            "title": "Title of book",
-            "author": "Author",
-            "pages": 0,
-            "publisher": "Blucher",
-            "bookCategoryId": "20efaba1-64bd-4b7f-82f4-c1d05550e305",
-            "id": "4c008a16-6725-42c6-83fc-289a1f230b38"
+            "name": "Student Name",
+            "email": "student@email",
+            "courseId": "a2c6f987-d83f-4fb3-9982-68553965b421",
+            "id": "1673a9fd-191a-479c-a41f-3dc5611aa98e"
         }
     ]
 
@@ -78,10 +76,12 @@ This command will run the site on url "https://localhost:5001" and the database 
 
     [
         {
-            "name": "Student Name",
-            "email": "student@email",
-            "courseId": "a2c6f987-d83f-4fb3-9982-68553965b421",
-            "id": "1673a9fd-191a-479c-a41f-3dc5611aa98e"
+            "title": "Title of book",
+            "author": "Author",
+            "pages": 0,
+            "publisher": "Blucher",
+            "bookCategoryId": "20efaba1-64bd-4b7f-82f4-c1d05550e305",
+            "id": "4c008a16-6725-42c6-83fc-289a1f230b38"
         }
     ]
 
