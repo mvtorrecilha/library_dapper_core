@@ -1,42 +1,39 @@
-# Library .Net Core
+# Library .Net Core 6
 
-Esse projeto tem como objetivo controlar o empréstimo de livros de uma biblioteca fictícia.
+This project aims to control the borrowing of books from a fictional library.
 
-Algumas funcionalidades já estão presentes, são elas:
+Some features are already developed:
 * Login
-* Listagem de livros
-* Pegar emprestado
+* Book listing
+* Borrow a book
 
 
-## Ferramentas
-Para rodar esse projeto você vai precisar:
+## Tools
+To run this project you will need:
 
-1. .Net core sdk 3.1 (https://dotnet.microsoft.com/download)
+1. .Net core sdk 6.0 (https://dotnet.microsoft.com/download)
 
 1. MSSql LocalDb - (https://download.microsoft.com/download/7/c/1/7c14e92e-bdcb-4f89-b7cf-93543e7112d1/SqlLocalDB.msi)
 
 1. NodeJs (https://nodejs.org/en/download/)
 
-Com todas essas ferramentas instaladas, basta executar os seguintes comandos no terminal do seu sistema operacional:
+With all these tools installed, run the following commands in your operating system's terminal:
 
 ### Backend:
 
 ```
 dotnet run --project .\backend\src\Library.Api\Library.Api.csproj -- seed
 ```
-Esse comando irá executar o site na url "https://localhost:5001" e o banco de dados já será criado com alguns dados já inseridos. Você pode verificar os dados inseridos no arquivo **DatabaseBoostrp.cs**.
+This command will run the site on url "https://localhost:5001" and the database will already be created with some data already inserted. You can check the data in the **DatabaseBoostrp.cs** file.
 
-**Obs.: Toda vez que vc executar esse comando os dados das tabelas serão apagados. Para não apagar os dados é só tirar o argumento "-- seed"**
+**Note: Every time you execute this command the data in the tables will be deleted. To not erase the data, just remove the argument "-- seed"**
 
 ### Frontend:
 
 ```
-cd frontend
+frontend cd
 npm install
-npm run serve
+npm run serves
 ```
 
-Esse comando irá executar o frontend na url "http://localhost:8080"
-
-
-
+This command will run the frontend on url "http://localhost:8080"
