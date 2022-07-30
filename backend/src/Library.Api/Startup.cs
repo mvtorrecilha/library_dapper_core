@@ -21,7 +21,6 @@ namespace Library.Api
         public void ConfigureServices(IServiceCollection services)
         {
             NativeInjectorBootStrapper.RegisterServices(services);
-            services.AddAuthenticationConfig(Configuration);
             services.AddControllers();
             services.AddCorsConfig();
             services.AddSwaggerGen();

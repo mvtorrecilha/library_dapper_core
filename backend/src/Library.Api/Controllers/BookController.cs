@@ -2,7 +2,7 @@
 using Library.Core.Helpers;
 using Library.Core.Interfaces.Repositories;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -26,7 +26,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("/api/books")]
         public async Task<IActionResult> Get()
         {
@@ -36,8 +36,11 @@ namespace Library.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        [Route("/api/books/{bookId:guid}/student/{studentEmail}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]   
+        [Route("/api/books/{bookId:guid}/student/{studentEmail}/borrow")]
         public async Task<IActionResult> Post([FromRoute] BorrowBookCommand command)
         {
             await _mediator.Send(command);
