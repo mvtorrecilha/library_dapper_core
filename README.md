@@ -2,11 +2,6 @@
 
 This project aims to control the borrowing of books from a fictional library.
 
-Features available for access:
-* List of Students
-* List of Books
-* Borrow a book
-
 ## Technologies implemented:
 
 - ASP.NET 6.0
@@ -14,7 +9,12 @@ Features available for access:
 - MediatR
 - Swagger
 
-## Tools
+Features available for access:
+- [List of Students](#list-of-students)
+- [List of Books](#list-of-books)
+- [Borrow a book](#borrow-a-book)
+
+## Getting Started
 To run this project you will need:
 
 1. .Net core sdk 6.0 (https://dotnet.microsoft.com/download)
@@ -25,7 +25,7 @@ To run this project you will need:
 
 With all these tools installed, run the following commands in your operating system's terminal:
 
-### Backend:
+## Usage
 
 ```
 dotnet run --project .\backend\src\Library.Api\Library.Api.csproj -- seed
@@ -34,6 +34,15 @@ This command will run the site on url "https://localhost:5001" and the database 
 
 **Note: Every time you execute this command the data in the tables will be deleted. To not erase the data, just remove the argument "-- seed"**
 
+## Run the tests
+
+```
+dotnet test ./backend/src/Library.UnitTests/Library.UnitTests.csproj
+```
+
+## REST API
+
+The REST API to the example app is described below.
 
 ## List of Students
 
