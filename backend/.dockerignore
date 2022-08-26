@@ -16,3 +16,4 @@ global.json
 **/appsettings.localhost.json
 Web/**/wwwroot/
 packages/
+Dockerfile*

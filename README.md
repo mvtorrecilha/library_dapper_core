@@ -34,6 +34,11 @@ This command will run the site on url "https://localhost:5001" and the database 
 
 **Note: Every time you execute this command the data in the tables will be deleted. To not erase the data, just remove the argument "-- seed"**
 
+## Run the tests
+
+```
+dotnet test ./backend/src/Library.UnitTests/Library.UnitTests.csproj
+```
 ## Docker Usage
 
 ```
@@ -41,12 +46,6 @@ docker-compose up
 ```
 
 swagger url: `http://localhost:5000/api/swagger/index.html`
-
-## Run the tests
-
-```
-dotnet test ./backend/src/Library.UnitTests/Library.UnitTests.csproj
-```
 
 ## REST API
 
