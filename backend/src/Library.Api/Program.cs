@@ -18,7 +18,7 @@ public class Program
 
         if (args.Contains("seed"))
         {
-            DatabaseBootstrap bookRepository = new DatabaseBootstrap(configs.GetConnectionString("Master"));
+            DatabaseBootstrap bookRepository = new DatabaseBootstrap(configs.GetConnectionString("DefaultConnection"));
             bookRepository.Setup().Wait();
         }
 

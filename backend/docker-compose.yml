@@ -1,0 +1,25 @@
+version: "3.8"
+
+services: 
+
+    sqldata:
+        image: "mcr.microsoft.com/mssql/server:2022-latest"
+        container_name: sql-data
+        environment:
+          SA_PASSWORD: "Pass@word"
+          ACCEPT_EULA: "Y"
+        ports:
+          - "1433:1433"
+
+    library:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - ASPNETCORE_ENVIRONMENT:Development
+            - DefaultConnection:Server=sqldata;Database=Library;User Id=sa;Password=Pass@word;Persist Security Info=True
+        container_name: library
+        ports: 
+            - 5000:80
+        depends_on: 
+            - sqldata
