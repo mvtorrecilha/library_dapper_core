@@ -45,6 +45,8 @@ dotnet test ./backend/src/Library.UnitTests/Library.UnitTests.csproj
 docker-compose up
 ```
 
+url: `http://localhost:5000`
+
 swagger url: `http://localhost:5000/api/swagger/index.html`
 
 ## REST API
