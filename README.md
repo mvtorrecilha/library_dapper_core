@@ -49,6 +49,15 @@ url: `http://localhost:5000`
 
 swagger url: `http://localhost:5000/api/swagger/index.html`
 
+## Docker Run the tests
+
+```
+docker build --target unittest -t test . 
+```
+
+```
+docker run -it --rm --name unit-test test
+```
 ## REST API
 
 The REST API to the example app is described below.

@@ -7,6 +7,8 @@ services:
             dockerfile: sql/Dockerfile
         ports:
           - "1433:1433"
+        volumes:
+          - library-sqldata:/var/opt/mssql
 
     library:
         build:
@@ -20,3 +22,7 @@ services:
             - 5000:80
         depends_on: 
             - sqldata
+
+volumes:
+  library-sqldata:
+    external: false
