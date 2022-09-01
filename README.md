@@ -4,7 +4,7 @@ This project aims to control the borrowing of books from a fictional library.
 
 ## Technologies implemented:
 
-- ASP.NET 6.0
+- ASP.NET Core 6.0 (Migrated from ASP.NET Core 3.1 to ASP.NET Core 6.0)
 - Dapper
 - MediatR
 - Swagger
