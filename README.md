@@ -1,6 +1,6 @@
 # Library API
 
-This project aims to control the borrowing of books from a fictional library.
+Simple API that aims to control the borrowing of books from a library.
 
 ## Technologies implemented:
 
@@ -20,10 +20,6 @@ To run this project you will need:
 1. .Net core sdk 6.0 (https://dotnet.microsoft.com/download)
 
 1. MSSql LocalDb - (https://download.microsoft.com/download/7/c/1/7c14e92e-bdcb-4f89-b7cf-93543e7112d1/SqlLocalDB.msi)
-
-1. NodeJs (https://nodejs.org/en/download/)
-
-With all these tools installed, run the following commands in your operating system's terminal:
 
 ## Usage
 
